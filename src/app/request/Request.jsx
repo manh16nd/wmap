@@ -4,7 +4,8 @@ import {finishOrder, getOrder} from '../../services/api/OrderService'
 import Map from '../shared/Map'
 import {usePosition} from 'use-position'
 
-const Order = props => {
+
+const Request = props => {
     const [data, setData] = useState({})
     const params = useParams()
     const {latitude, longitude} = usePosition()
@@ -80,7 +81,10 @@ const Order = props => {
             <Map points={previews}/>
         </div>
 
+        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={resolve}>
+            Kết thúc đơn hàng
+        </button>
     </div>
 }
 
-export default Order
+export default Request

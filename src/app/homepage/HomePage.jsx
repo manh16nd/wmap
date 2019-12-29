@@ -3,10 +3,10 @@ import Map from '../shared/Map'
 import MenuTabs from './MenuTabs'
 import Preview from './Preview'
 import {usePosition} from 'use-position'
-import {getNearbyStores} from '../../services/api/StoresServices'
+import {getNearbyStores, getRecommendStores} from '../../services/api/StoresServices'
 
 const HomePage = props => {
-    const [tab, setTab] = useState(1)
+    const [tab, setTab] = useState(0)
     const [trying, setTring] = useState(0)
     const [loading, setLoading] = useState(false)
     const [maxDistance, setMaxDistance] = useState(1000)
@@ -29,11 +29,26 @@ const HomePage = props => {
         setLoading(true)
         setTring(trying + 1)
         const current_location = lat ? [lat, lng] : [105.7827015, 21.0382399]
-        const {success, data: resp} = await getNearbyStores(current_location, maxDistance)
-        setLoading(false)
-        if (!success) return fetchNearby()
-        const {data} = resp
-        setPreview(data)
+
+        if (tab === 1) {  
+            const {success, data: resp} = await getNearbyStores(current_location, maxDistance)
+            setLoading(false)
+            if (!success) return fetchNearby()
+            const {data} = resp
+            setPreview(data)
+
+            return
+        }
+        else {
+            const {success, data: resp} = await getRecommendStores(current_location, maxDistance)
+            setLoading(false)
+            if (!success) return fetchNearby()
+            const {data} = resp
+            setPreview(data) 
+            return
+        }
+        
+        
     }
 
     const previewIcon = preview.map(item => ({

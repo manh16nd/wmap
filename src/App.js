@@ -23,10 +23,11 @@ import '@ionic/react/css/typography.css';
 import './theme/tailwind/index.css'
 import './theme/index.css'
 import './theme/icofont/icofont.min.css'
-import {IonApp, IonContent, IonHeader, IonRouterOutlet} from '@ionic/react'
+import {IonApp, IonContent, IonHeader} from '@ionic/react'
 import {IonReactRouter} from '@ionic/react-router'
 import Shipper from './app/shipper/Shipper'
 import Order from './app/order/Order'
+import Request from './app/request/Request'
 
 const _token = localStorage.getItem('token')
 const _user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
@@ -57,7 +58,10 @@ function App() {
                                 {!token ? <Route exact path={'/login'} component={Login}/> : <Fragment>
                                     <Route exact path={'/user'} component={UserContainer}/>
                                     {
-                                        user.type === 'shipper' ? <Route exact path={'/shipper'} component={Shipper}/> :
+                                        user.type === 'shipper' ? <Fragment>
+                                                <Route exact path={'/shipper'} component={Shipper}/>
+                                                <Route exact path={'/request/:id'} component={Request}/>
+                                            </Fragment> :
                                             <Fragment>
                                                 <Route exact path={'/order/:id'} component={Order}/>
                                             </Fragment>

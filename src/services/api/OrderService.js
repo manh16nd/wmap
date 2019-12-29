@@ -25,3 +25,18 @@ export const getOrder = orderId => {
         method: 'get',
     })
 }
+
+export const acceptOrder = (orderId) => {
+    return api.createAuthApiRequest({
+        url: '/' + orderId + '/accept-shipping',
+        data: {ship_price: 10000},
+        method: 'post'
+    })
+}
+
+export const finishOrder = orderId => {
+    return api.createAuthApiRequest({
+        url: '/' + orderId + '/resolve',
+        method: 'post',
+    })
+}

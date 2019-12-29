@@ -11,7 +11,7 @@ class Map extends React.Component {
         map = new mapboxgl.Map({
             container: 'food-map',
             style: mapVector,
-            center: this.props.current.lat ? [this.props.current.lng, this.props.current.lat] : [105.7827015, 21.0382399],
+            center: this.props.current && this.props.current.lat ? [this.props.current.lng, this.props.current.lat] : [105.7827015, 21.0382399],
             zoom: 16,
         })
         map.on('load', () => {
@@ -29,8 +29,10 @@ class Map extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (!prevProps.current.lat && this.props.current.lat) {
-            // this.setCenter()
+        if (this.props.current) {
+            if (!prevProps.current.lat && this.props.current.lat) {
+                this.setCenter()
+            }
         }
         if (JSON.stringify(this.props.points) !== JSON.stringify(prevProps.points)) {
             this.addPoints()
@@ -38,7 +40,10 @@ class Map extends React.Component {
     }
 
     addPoints = () => {
-        this.props.points.forEach((point, i) => this.renderPoints({...point, iconSize: .5}, `point_${i}`))
+        this.props.points.forEach((point, i) => {
+            console.log(point)
+            return this.renderPoints({...point, iconSize: .5}, `point_${i}`)
+        })
     }
 
     renderPoints = ({icon, coordinates, iconSize}, id) => {
